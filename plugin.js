@@ -11,7 +11,8 @@ function imageGallery(selector){
 			currentImageIndex = imageList.index($(this));
 			//showImage($(selector), $(this));
 			showImage();
-			$('#'+imageGalleryID).show();
+            //$('#' + imageGalleryID).show();
+            $('body').addClass('image-gallery-opened');
 		}
 		else{	// container not exist, need to create a new one
 			currentImageIndex = imageList.index($(this));
@@ -26,15 +27,17 @@ function imageGallery(selector){
 
 function imageGalleryInit() {
 	let imageAmount = imageList.length;
-	$('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> </div></div><div class='image-gallery-preview-container'> </div></div>");
+    $('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> </div></div><div class='image-gallery-preview-container'> </div></div>");
+    $('body').addClass('image-gallery-opened');
 
 	// add click Listener for icons
 	$('#'+imageGalleryID+' .action-preview').on('click', function() {
 		$('#'+imageGalleryID).toggleClass('preview-opened');
-		isPreviewOpened = isPreviewOpened ? false: true;
+		//isPreviewOpened = isPreviewOpened ? false: true;
 	});
 	$('#'+imageGalleryID+' .action-close').on('click', function() {
-		$('#'+imageGalleryID).hide();
+		//$('#'+imageGalleryID).hide();
+        closeImageGallery();
 	});
 	$('#'+imageGalleryID+' .image-gallery-nav.prev').on('click', function() {
 		prevImage();
@@ -91,6 +94,11 @@ function showImage(){
 function activatePreview(){
 	$('#'+imageGalleryID+' .preview-img-wrapper').removeClass('active');
 	$('#'+imageGalleryID+' .preview-img-wrapper').eq(currentImageIndex).addClass('active');
+}
+
+function closeImageGallery() {
+    $('#' + imageGalleryID).removeClass('opened');
+    $('body').removeClass('image-gallery-opened');
 }
 
 
