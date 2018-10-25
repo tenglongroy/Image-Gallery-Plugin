@@ -45,11 +45,20 @@ function imageGalleryInit() {
 	$('#'+imageGalleryID+' .image-gallery-nav.next').on('click', function() {
 		nextImage();
     });
+	$('#'+imageGalleryID+' .current-image').on('click', function() {
+		// zoom-in / out
+		// TO-DO
+		
+    });
     $('body').keydown(function (e) {
         //need to check if focus on index input
         // TO-DO
 
         if (isGalleryOpened()) {
+        	// check if in the index input, if so, don't move images with arrows
+        	if($(document.activeElement).hasClass('index')){
+        		return true;
+        	}
             if (e.which == 37) {    //left arrow
                 prevImage();
             }
@@ -67,13 +76,24 @@ function imageGalleryInit() {
 
 	$('#'+imageGalleryID+' .index-container input.index').on('change', function() {
 		if(($(this).val()+"").match(/^\d+$/)){	//check if it is integer
-			currentImageIndex = parseInt($(this).val())-1;
-			showImage();
+			let inputNum = parseInt($(this).val())-1;
+			if(inputNum >= 0 && inputNum+1 <= imageList.length){
+				currentImageIndex = inputNum;
+				showImage();
+			}
 		}
 		else{
 			alert('Please enter a correct number.');
 		}
 	});
+
+	// adjust the image container's max-height for smaller screen (laptop), to avoid top-bar being covered
+	let totalHeight = $('#'+imageGalleryID).height();
+	let leastSpareHeight = $('#'+imageGalleryID+' .top-bar').height();
+	//(totalHeight - maxHeight)/2 >= leastSpareHeight+10;
+	let maxHeight = totalHeight - (leastSpareHeight+10)*2;
+	$('#'+imageGalleryID+' .image-gallery-display-container').css('max-height', maxHeight+'px');
+
 
 	// create preview container by adding preview path as image source
 	for(let i = 0; i < imageList.length; i++){
