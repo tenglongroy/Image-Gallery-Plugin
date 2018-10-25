@@ -44,7 +44,27 @@ function imageGalleryInit() {
 	});
 	$('#'+imageGalleryID+' .image-gallery-nav.next').on('click', function() {
 		nextImage();
-	});
+    });
+    $('body').keydown(function (e) {
+        //need to check if focus on index input
+        // TO-DO
+
+        if (isGalleryOpened()) {
+            if (e.which == 37) {    //left arrow
+                prevImage();
+            }
+            else if (e.which == 39) {   //right arrow
+                nextImage();
+            }
+            else if (e.which == 27) {   //Esc
+                closeImageGallery();
+            }
+        }
+        else {
+            return true;
+        }
+    });
+
 	$('#'+imageGalleryID+' .index-container input.index').on('change', function() {
 		if(($(this).val()+"").match(/^\d+$/)){	//check if it is integer
 			currentImageIndex = parseInt($(this).val())-1;
@@ -101,21 +121,16 @@ function closeImageGallery() {
     $('body').removeClass('image-gallery-opened');
 }
 
-
-// function openImageGallery(selector){
-// 	if(isGalleryExist()){	// container already exist, show it
-// 		$(imageGalleryClass).show();
-// 	}
-// 	else{	// container not exist, need to create a new one
-// 		$('body').append("<div class='" + imageGalleryClass + "'></div>");
-// 	}
-// }
-
-
-
-
-function isGalleryExist(){
-	if($('#'+imageGalleryID).length)
-		return true;
-	return false;
+function isGalleryOpened() {
+    if ($('body').hasClass('image-gallery-opened'))
+        return true;
+    return false;
 }
+
+function isGalleryExist() {
+    if ($('#' + imageGalleryID).length)
+        return true;
+    return false;
+}
+
+
