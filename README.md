@@ -10,3 +10,5 @@ this plugin is based on Jquery. Use the plugin as imageGallery(imageSelector), t
   <img src="some-image-src" data-preview-img="some-image-thumbnail-src" data-display-img="some-image-large-size-src">
 </div>
 ```
+
+the URL of preview image (thumbnail size) should be placed under "data-preview-img" attribute, and original image (full size or large size) should be placed under "data-display-img".
