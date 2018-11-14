@@ -74,6 +74,10 @@ function imageGalleryInit() {
         }
     });
 
+
+    $('#'+imageGalleryID+' .index-container input.index').on('click', function() {
+    	$(this).select();
+    });
 	$('#'+imageGalleryID+' .index-container input.index').on('change', function() {
 		if(($(this).val()+"").match(/^\d+$/)){	//check if it is integer
 			let inputNum = parseInt($(this).val())-1;
