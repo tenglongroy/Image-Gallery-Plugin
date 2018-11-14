@@ -7,7 +7,7 @@ this plugin is based on Jquery. Use the plugin as imageGallery(imageSelector), t
 
 ```HTML
 <div class="my-image-container">
-  <img src="some-image-src" data-preview-img="some-image-thumbnail-src" data-display-img="some-image-large-size-src">
+  <img src="some-image-src" data-preview-img="some-image-thumbnail-src.jpg" data-display-img="some-image-large-size-src.jpg">
 </div>
 ```
 
