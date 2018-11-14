@@ -27,7 +27,7 @@ function imageGallery(selector){
 
 function imageGalleryInit() {
 	let imageAmount = imageList.length;
-    $('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> </div></div><div class='image-gallery-preview-container'> </div></div>");
+    $('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> <div class='current-image-background'></div></div></div><div class='image-gallery-preview-container'> </div></div>");
     $('body').addClass('image-gallery-opened');
 
 	// add click Listener for icons
@@ -45,10 +45,10 @@ function imageGalleryInit() {
 	$('#'+imageGalleryID+' .image-gallery-nav.next').on('click', function() {
 		nextImage();
     });
-	$('#'+imageGalleryID+' .current-image').on('click', function() {
+	$('#'+imageGalleryID+' .current-image-background').on('click', function() {
 		// zoom-in / out
 		// TO-DO
-		
+		$(this).toggleClass('image-gallery-plugin-zoom-in');
     });
     $('body').keydown(function (e) {
         //need to check if focus on index input
@@ -130,7 +130,9 @@ function nextImage(){
 
 function showImage(){
 	// add current image to display container
-	$('#'+imageGalleryID+' .current-image').attr('src', imageList.eq(currentImageIndex).data('display-img'));
+	//$('#'+imageGalleryID+' .current-image').attr('src', imageList.eq(currentImageIndex).data('display-img'));
+	$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+imageList.eq(currentImageIndex).data('display-img')+')');
+	$('#'+imageGalleryID+' .current-image-background').removeClass('image-gallery-plugin-zoom-in');
 	$('#'+imageGalleryID+' .index-container input.index').val(currentImageIndex+1);
 	activatePreview();
 }
