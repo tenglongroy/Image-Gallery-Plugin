@@ -27,7 +27,7 @@ function imageGallery(selector){
 
 function imageGalleryInit() {
 	let imageAmount = imageList.length;
-    $('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> <div class='current-image-background'></div></div></div><div class='image-gallery-preview-container'> </div></div>");
+    $('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> <div class='current-image-background'></div></div></div><div class='image-gallery-preview-container'><div class='image-gallery-preview-scroller'></div></div></div>");
     $('body').addClass('image-gallery-opened');
 
 	// add click Listener for icons
@@ -68,6 +68,9 @@ function imageGalleryInit() {
             else if (e.which == 27) {   //Esc
                 closeImageGallery();
             }
+            else if (e.which == 80){	//p for preview
+            	$('#'+imageGalleryID+' .action-icon.action-preview').click()
+            }
         }
         else {
             return true;
@@ -101,7 +104,7 @@ function imageGalleryInit() {
 
 	// create preview container by adding preview path as image source
 	for(let i = 0; i < imageList.length; i++){
-		$('#'+imageGalleryID+' .image-gallery-preview-container').append('<div class="preview-img-wrapper"><img src="'+ imageList.eq(i).data("preview-img") +'"></div>');
+		$('#'+imageGalleryID+' .image-gallery-preview-scroller').append('<div class="preview-img-wrapper"><img src="'+ imageList.eq(i).data("preview-img") +'"></div>');
 	}
 	$('#'+imageGalleryID+' .image-gallery-preview-container img').on('click', function(){
 		let clickIndex = $(this).parent().index();
@@ -140,6 +143,14 @@ function showImage(){
 function activatePreview(){
 	$('#'+imageGalleryID+' .preview-img-wrapper').removeClass('active');
 	$('#'+imageGalleryID+' .preview-img-wrapper').eq(currentImageIndex).addClass('active');
+	scrollToActive();
+}
+
+function scrollToActive(){
+	$('#'+imageGalleryID+' .image-gallery-preview-scroller').animate({
+        //scrollTop: $('#'+imageGalleryID+' .preview-img-wrapper.active').offset().top
+        scrollTop: $('#'+imageGalleryID+' .preview-img-wrapper.active').offset().top - $('#'+imageGalleryID+' .image-gallery-preview-scroller').offset().top + $('#'+imageGalleryID+' .image-gallery-preview-scroller').scrollTop()
+    }, 500);
 }
 
 function closeImageGallery() {

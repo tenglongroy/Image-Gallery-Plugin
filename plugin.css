@@ -188,9 +188,15 @@ body.image-gallery-opened #image-gallery-main {
     transition: 0.5s all ease;
     right: -10%;
     top: 0;
-    overflow-y: scroll;
-    background-color: #333333cc;
     height: 100%;
+}
+#image-gallery-main .image-gallery-preview-scroller{
+    scroll-snap-points-y: repeat(100px);
+    scroll-snap-type: both mandatory;
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+    background-color: #333333e6;
 }
 
 /* width */
@@ -234,6 +240,7 @@ width: 0;
     margin: 5px 0;
     position: relative;
     /* padding: 1px; */
+    scroll-snap-align: start;
 }
 
 #image-gallery-main .image-gallery-preview-container .preview-img-wrapper.active {
