@@ -190,7 +190,7 @@
 		
 		function showCaption(){
 			let captionID = imageList.eq(currentImageIndex).data('caption');
-			if(captionID.charAt(0) != '#')
+			if(captionID != undefined && captionID.charAt(0) != '#')
 				captionID = '#' + captionID;
 			$('#'+imageGalleryID+' .image-gallery-caption').html($(captionID).html());
 		}
