@@ -31,7 +31,7 @@
 	};
 
 
-		function Main_imageGallery(selector){
+		/*function Main_imageGallery(selector){
 			imageList = $(selector);
 			//let imageAmount = imageList.length;
 			$(selector).on('click', function(){
@@ -49,13 +49,13 @@
 				}
 			});
 
-		}
+		}*/
 
 
 
 		function imageGalleryInit() {
 			let imageAmount = imageList.length;
-			$('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> <div class='current-image-background'></div></div></div><div class='image-gallery-preview-portrait-container'><div class='image-gallery-preview-portrait-scroller'></div></div><div class='image-gallery-preview-landscape-container'><div class='image-gallery-preview-landscape-scroller'></div></div></div>");
+			$('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'> <img class='current-image'> <div class='current-image-background'></div></div><div class='image-gallery-caption'></div></div><div class='image-gallery-preview-portrait-container'><div class='image-gallery-preview-portrait-scroller'></div></div><div class='image-gallery-preview-landscape-container'><div class='image-gallery-preview-landscape-scroller'></div></div></div>");
 			$('body').addClass('image-gallery-opened');
 
 			// add click Listener for icons
@@ -184,7 +184,15 @@
 			$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+imageList.eq(currentImageIndex).data('display-img')+')');
 			$('#'+imageGalleryID+' .current-image-background').removeClass('image-gallery-plugin-zoom-in');
 			$('#'+imageGalleryID+' .index-container input.index').val(currentImageIndex+1);
+			showCaption();
 			activatePreview();
+		}
+		
+		function showCaption(){
+			let captionID = imageList.eq(currentImageIndex).data('caption');
+			if(captionID.charAt(0) != '#')
+				captionID = '#' + captionID;
+			$('#'+imageGalleryID+' .image-gallery-caption').html($(captionID).html());
 		}
 
 		function activatePreview(){

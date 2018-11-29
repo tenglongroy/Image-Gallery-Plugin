@@ -66,13 +66,16 @@
         <div class="img-wrapper"><img src="img-pixabay/preview/nature-view-min-17.jpg" data-preview-img="img-pixabay/preview/nature-view-min-17.jpg" data-display-img="img-pixabay/original/nature-view-17.jpg"></div>
         <div class="img-wrapper"><img src="img-pixabay/preview/nature-view-min-18.jpg" data-preview-img="img-pixabay/preview/nature-view-min-18.jpg" data-display-img="img-pixabay/original/nature-view-18.jpg"></div>
         <div class="img-wrapper"><img src="img-pixabay/preview/nature-view-min-19.jpg" data-preview-img="img-pixabay/preview/nature-view-min-19.jpg" data-display-img="img-pixabay/original/nature-view-19.jpg"></div>
-        <div class="img-wrapper"><img src="img-pixabay/preview/nature-view-min-20.jpg" data-preview-img="img-pixabay/preview/nature-view-min-20.jpg" data-display-img="img-pixabay/original/nature-view-20.jpg"></div>
+        <div class="img-wrapper"><img src="img-pixabay/preview/nature-view-min-20.jpg" data-caption="c40" data-preview-img="img-pixabay/preview/nature-view-min-20.jpg" data-display-img="img-pixabay/original/nature-view-20.jpg"></div>
     </div>
+	
+	<div> <p id="c40">test caption</p>
 
 	<script type="text/javascript">
         //imageGallery('img');
         $('.img-container .img-wrapper img').imageGallery({
-            landscape_preview: false
+            landscape_preview: true,
+			draggable: true
         });
 	</script>
 </body>
