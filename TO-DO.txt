@@ -1,5 +1,3 @@
-1.preview images auto scroll with active (done, but behaviour might need changed)
-
 3.Future work/improvement: currently the list of images are collected by providing a jQuery selector to these imagee. In the next version, developers can put a "data-image-gallery-plugin" attribute to every image element and this plugin can do its work. This would be better because in some situation, it's complicated to provide a selector for all the image element. (might be unnecessary as it is built as jQuery plugin)
 
 4.Further future work: can re-write the plugin to make it jQuery-free, so that it can be used where a project does not rely on jQuery. (might be unnecessary as it is built as jQuery plugin)
