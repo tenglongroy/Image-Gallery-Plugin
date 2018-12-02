@@ -191,6 +191,19 @@ body.image-gallery-opened #image-gallery-main {
     cursor: zoom-out;
 }
 
+#image-gallery-main .loading-image{
+    width: 15%;    
+    height: 15%;    
+    background-position: center;    
+    background-repeat: no-repeat;    
+    background-size: contain;    
+    position: absolute;    
+    top: 50%;    
+    left: 50%;    
+    transform: translateX(-50%) translateY(-50%);
+}
+
+
 #image-gallery-main .image-gallery-caption{
     /* text-align: center; */
     /* color: #fff; */
