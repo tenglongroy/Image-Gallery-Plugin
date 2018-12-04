@@ -1,3 +1,7 @@
+:root{
+    --blur-level : 10px;
+}
+
 @font-face {
     font-family: "FontAwesome";
     font-weight: normal;
@@ -40,6 +44,13 @@ body.image-gallery-opened {
 
 body.image-gallery-opened #image-gallery-main {
     display: block;
+}
+body.image-gallery-opened.image_gallery_effect_blur > *:not(#image-gallery-main) {
+    -webkit-filter: blur(var(--blur-level));
+    -moz-filter: blur(var(--blur-level));
+    -o-filter: blur(var(--blur-level));
+    -ms-filter: blur(var(--blur-level));
+    filter: blur(var(--blur-level));
 }
 
 #image-gallery-main {
@@ -241,6 +252,38 @@ body.image-gallery-opened #image-gallery-main {
 }
 
 
+
+#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper.active,
+#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper.active {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid #fff;
+}
+
+#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper img,
+#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper img {
+    max-width: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    cursor: pointer;
+    filter: brightness(0.6);
+    height: auto;
+}
+#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper img:hover,
+#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper img:hover {
+    filter: brightness(0.8);
+}
+
+#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper.active img,
+#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper.active img {
+    filter: brightness(1.2);
+}
+
 /***********************************
       preview-portrait-container  
 ***********************************/
@@ -305,6 +348,9 @@ width: 0;
     /* padding: 1px; */
     scroll-snap-align: start;
 }
+/*****************************************
+    end portrait preview container
+*****************************************/
 
 /***********************************
       preview-landscape-container  
@@ -371,38 +417,28 @@ width: 0;
     margin: 0 3px;
     position: relative;
     scroll-snap-align: start;
+    transition: 0.3s all ease;
+}
+#image-gallery-main.active_preview_standout .image-gallery-preview-landscape-container .preview-img-wrapper {
+    height: 90%;
+}
+#image-gallery-main.active_preview_standout .image-gallery-preview-landscape-container .preview-img-wrapper.active,
+#image-gallery-main.active_preview_standout .image-gallery-preview-landscape-container .preview-img-wrapper:hover {
+    height: 100%;
+}
+#image-gallery-main.active_preview_standout .image-gallery-preview-landscape-container .preview-img-wrapper img {
+    top: 0;
+    transform: translateX(-50%);
 }
 /*****************************************
     end landscape preview container
 *****************************************/
 
 
-#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper.active,
-#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper.active {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border: 2px solid #fff;
-}
 
-#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper img,
-#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper img {
-    max-width: 100%;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    cursor: pointer;
-    filter: brightness(0.6);
-    height: auto;
-}
-
-#image-gallery-main .image-gallery-preview-portrait-container .preview-img-wrapper.active img,
-#image-gallery-main .image-gallery-preview-landscape-container .preview-img-wrapper.active img {
-    filter: brightness(1.2);
-}
+/*****************************************
+    prev and next nav
+*****************************************/
 
 #image-gallery-main .image-gallery-nav {
     opacity: 0.6;
@@ -431,6 +467,9 @@ width: 0;
     left: 96%;
     padding: 8px 10px 6px 13px;
 }
+/*****************************************
+        end nav
+*****************************************/
 
 .caption-container{
     text-align: center;

@@ -25,7 +25,8 @@
 			landscape_preview: false,
 			preload: false,
 			blur_background: false,
-			image_gallery_ID: "image-gallery-main", /* css variables https://www.sitepoint.com/practical-guide-css-variables-custom-properties/ */
+			active_preview_standout: false,
+			//image_gallery_ID: "image-gallery-main", /* not possible currently, "css variables" https://www.sitepoint.com/practical-guide-css-variables-custom-properties/ */
 		}, options );
 		
 		imageList = this;
@@ -37,6 +38,7 @@
 				showImage();
 				//$('#' + imageGalleryID).show();
 				$('body').addClass('image-gallery-opened');
+				scrollToActive();
 			}
 			else{	// container not exist, need to create a new one
 				currentImageIndex = imageList.index($(this));
@@ -72,7 +74,16 @@
 	function imageGalleryInit() {
 		let imageAmount = imageList.length;
 		$('body').append("<div id='" + imageGalleryID + "'><div class='image-gallery-body'><div class='top-bar'><div class='index-container'><input class='index' type='number' value='" + currentImageIndex + "'></input><span>/ " + imageAmount + "</span></div><div class='action-bar'><div class='action-icon action-preview'><i class='icon ig-preview'></i></div><div class='action-icon action-close'><i class='icon ig-close'></i></div></div></div><a class='image-gallery-nav prev'><i class='icon ig-prev'></i></a><a class='image-gallery-nav next'><i class='icon ig-next'></i></a><div class='image-gallery-display-container'><img class='current-image'> <div class='current-image-background'></div><div class='loading-image' style='background-image:url("+loadingImage+");display:none;'></div></div></div><div class='image-gallery-bottom-container'><div class='image-gallery-caption'></div><div class='image-gallery-preview-landscape-container'><div class='image-gallery-preview-landscape-scroller'></div></div></div><div class='image-gallery-preview-portrait-container'><div class='image-gallery-preview-portrait-scroller'></div></div></div>");
+		
 		$('body').addClass('image-gallery-opened');
+
+		if(settings.blur_background){
+			$('body').addClass('image_gallery_effect_blur');
+			document.body.style.setProperty('--blur-level', settings.blur_background);
+		}
+		if(settings.active_preview_standout){
+			$('#'+imageGalleryID).addClass('active_preview_standout');
+		}
 
 		// add click Listener for icons
 		$('#'+imageGalleryID+' .action-preview').on('click', function() {
@@ -226,7 +237,7 @@
 			$('#'+imageGalleryID+' .loading-image').show();
 
 			$('<img/>').attr('src', currentImageURL).on('load', function() {
-				console.log('on load display image' + $.now() +' ' + currentImageURL);
+				//console.log('on load display image' + $.now() +' ' + currentImageURL);
 				$('#'+imageGalleryID+' .image-gallery-display-container').removeClass('image-loading');
 				$('#'+imageGalleryID+' .loading-image').fadeOut(200);
 				preloadSet.add(currentImageURL);
@@ -296,7 +307,7 @@
 	};
 	function preloadImage(imageURL) {
 		$('<img />').attr('src',imageURL).appendTo('body').on('load',function(){
-			console.log('preload finish at '+ $.now() +' ' + imageURL);
+			//console.log('preload finish at '+ $.now() +' ' + imageURL);
 			preloadSet.add(imageURL);
 			this.remove();
 		});
