@@ -107,15 +107,13 @@
 		});
 		$('#'+imageGalleryID+' .current-image-background').on('click', function() {
 			// zoom-in / out
-			// TO-DO
 			$('#'+imageGalleryID+' .image-gallery-display-container').toggleClass('image-gallery-plugin-zoom-in');
+			//$('#'+imageGalleryID).append("<div></div>");	// this was used to update the DOM so the cursor will update, but now Webkit has fix the problem, as long as Dev Tool is not opened.
 		});
 		$('body').keydown(function (e) {
-			//need to check if focus on index input
-			// TO-DO
 
 			if (isGalleryOpened()) {
-				// check if in the index input, if so, don't move images with arrows
+				// check if focus on index input, if so, don't move images with arrows
 				if($(document.activeElement).hasClass('index')){
 					return true;
 				}
