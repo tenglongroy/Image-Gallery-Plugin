@@ -18,9 +18,11 @@
 	var photoList = undefined;
     var settings = undefined;
     var photoWidth = undefined;
-    var currentColumnNo = undefined;
+    var currentColumnNo = 0;
+    var currentColumnHeights = [];
+    var photoGridContainer = undefined;
 
-	$.fn.imageGallery = function(photoGridContainer, options) {
+	$.fn.photoGridResponsive = function(parentElement, options) {
 		settings = $.extend({
             // These are the defaults
             max_column: 5,
@@ -31,31 +33,60 @@
 		photoList = this;
 		//let imageAmount = imageList.length;
 
+        photoGridContainer = parentElement;
         photoGridContainer.append("<div id='"+ photoGridID +"'></div>");
-        for(let i = 1; i <= settings.max_column; i++){
+        
+        photoList.appendTo($('#'+photoGridID));
+        /*photoList.each(function(){
+            $(this).clone().appendTo($('#photoGridID'));
+        })*/
+        /*for(let i = 1; i <= settings.max_column; i++){
             $('#'+photoGridID).append("<div class='grid-column"+i+"'></div>");
-        }
+        }*/
 
-        photoWidth = Math.floor(settings.max_container_width/max_column);
-        currentColumnNo = settings.max_column;
+        photoWidth = Math.floor(settings.max_container_width/settings.max_column);
+        //currentColumnNo = settings.max_column;
 
         gridRestructure();
+
+        $(window).resize(gridRestructure());
     };
     
     // restructure the columns to fit the screen width
     function gridRestructure(){
-
-
-        for(let i = 0; i < photoList.length; i++){
-
+        // no need to re-structure because the column number didn't change
+        if(getColumnNo() == currentColumnNo){
+            return;
+        }
+        currentColumnNo = getColumnNo();
+        // init the height list
+        currentColumnHeights.length = 0;
+        for(let i = 0; i<currentColumnNo; i++){
+            currentColumnHeights.push([i*photoWidth,0]);
         }
 
-        $(window).resize(function () {
+        for(let i = 0; i < photoList.length; i++){
+            let imgWidth = photoList.eq(i).width(), imgHeight = photoList.eq(i).height();
+            if(imgWidth == 0 || imgHeight == 0)
+                continue;
+            let Index = findSmallestHeightIndex();
 
-        });
+            photoList.eq(i).css({"position":"absolute", "left":currentColumnHeights[Index][0]+"px", "top":currentColumnHeights[Index][1]+"px"});
+            currentColumnHeights[Index][1] += parseInt(photoWidth * imgHeight / imgWidth);
+        }
     }
 
     function getColumnNo(){
-        window.innerWidth()
+        let result = parseInt(photoGridContainer.width() / photoWidth);
+        return result > settings.max_column? settings.max_column : result;
+    }
+
+    function findSmallestHeightIndex(){
+        let resultIndex = 0;
+        for(let i = 0; i < currentColumnHeights.length; i++){
+            if(currentColumnHeights[i][1] < currentColumnHeights[resultIndex][1])
+                resultIndex = i;
+        }
+        return resultIndex;
     }
 }( jQuery ));
