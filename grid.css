@@ -1,0 +1,9 @@
+#photo-grid-main{
+    position: relative;
+}
+
+#photo-grid-main .photo-grid-img{
+    transition: 0.3s all linear;
+    height: 98%;
+    width: 98%;
+}
