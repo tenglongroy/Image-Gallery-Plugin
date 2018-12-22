@@ -27,9 +27,16 @@
 			blur_background: false,
 			active_preview_standout: false,
 			//image_gallery_ID: "image-gallery-main", /* not possible currently, "css variables" https://www.sitepoint.com/practical-guide-css-variables-custom-properties/ */
+
+			// This is for internal use option
+			supportIE: false,
 		}, options );
 		
 		imageList = this;
+		let IEandEdge = window.navigator.userAgent;
+		if(IEandEdge.indexOf('MSIE ')>0 || IEandEdge.indexOf('Trident/')>0 || IEandEdge.indexOf('Edge/')>0)
+			settings.supportIE = true;
+
 		//let imageAmount = imageList.length;
 		this.on('click', function(){
 			if(isGalleryExist()){	// container already exist, show it
@@ -105,7 +112,7 @@
 		$('#'+imageGalleryID+' .image-gallery-nav.next').on('click', function() {
 			nextImage();
 		});
-		$('#'+imageGalleryID+' .current-image-background').on('click', function() {
+		$('#'+imageGalleryID+' .current-image-background, '+'#'+imageGalleryID+' .current-image').on('click', function() {
 			// zoom-in / out
 			$('#'+imageGalleryID+' .image-gallery-display-container').toggleClass('image-gallery-plugin-zoom-in');
 			//$('#'+imageGalleryID).append("<div></div>");	// this was used to update the DOM so the cursor will update, but now Webkit has fix the problem, as long as Dev Tool is not opened.
@@ -168,14 +175,19 @@
 			$('#'+imageGalleryID+' .image-gallery-display-container').css('max-height', maxHeight+'px');
 		}
 
+		if(settings.supportIE){
+			$('#'+imageGalleryID+' .image-gallery-display-container').addClass('image-gallery-support-IEandEdge');
+		}
+
 
 		// create preview container by adding preview path as image source
 		for(let i = 0; i < imageList.length; i++){
+			let previewURL = imageList.eq(i).data("preview-img") || imageList.eq(currentImageIndex).attr('src') || imageList.eq(i).data("display-img");
 			if(settings.landscape_preview){
-				$('#'+imageGalleryID+' .image-gallery-preview-landscape-scroller').append('<div class="preview-img-wrapper"><img src="'+ imageList.eq(i).data("preview-img") +'"></div>');
+				$('#'+imageGalleryID+' .image-gallery-preview-landscape-scroller').append('<div class="preview-img-wrapper"><img src="'+ previewURL +'"></div>');
 			}
 			else{
-				$('#'+imageGalleryID+' .image-gallery-preview-portrait-scroller').append('<div class="preview-img-wrapper"><img src="'+ imageList.eq(i).data("preview-img") +'"></div>');
+				$('#'+imageGalleryID+' .image-gallery-preview-portrait-scroller').append('<div class="preview-img-wrapper"><img src="'+ previewURL +'"></div>');
 			}
 		}
 		$('#'+imageGalleryID+' .image-gallery-preview-portrait-container img, ' + '#'+imageGalleryID+' .image-gallery-preview-landscape-container img').on('click', function(){
@@ -220,10 +232,15 @@
 		$('#'+imageGalleryID+' .index-container input.index').val(currentImageIndex+1);
 		
 		// load current image to display container
-		let currentImageURL = imageList.eq(currentImageIndex).data('display-img');
+		let currentImageURL = imageList.eq(currentImageIndex).data('display-img') || imageList.eq(currentImageIndex).data('preview-img') || imageList.eq(currentImageIndex).attr('src');
 		// check if the image is already cached
 		if(preloadSet.has(currentImageURL)){
-			$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+currentImageURL+')');
+			if(settings.supportIE){
+				$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+currentImageURL+')');
+			}
+			else{
+				$('#'+imageGalleryID+' .current-image').attr('src', currentImageURL);
+			}
 			if(settings.preload){
 				preloadImage(imageList.eq(getPrevIndex()).data('display-img'));
 				preloadImage(imageList.eq(getNextIndex()).data('display-img'));
@@ -240,7 +257,12 @@
 				$('#'+imageGalleryID+' .loading-image').fadeOut(200);
 				preloadSet.add(currentImageURL);
 				$(this).remove(); // "prevent memory leaks as @benweet suggested" by author  https://stackoverflow.com/questions/5057990/how-can-i-check-if-a-background-image-is-loaded
-				$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+currentImageURL+')');
+				if(settings.supportIE){
+					$('#'+imageGalleryID+' .current-image-background').css('background-image', 'url('+currentImageURL+')');
+				}
+				else{
+					$('#'+imageGalleryID+' .current-image').attr('src', currentImageURL);
+				}
 				// pre-load image
 				if(settings.preload){
 					preloadImage(imageList.eq(getPrevIndex()).data('display-img'));
@@ -304,7 +326,7 @@
 		});
 	};
 	function preloadImage(imageURL) {
-		$('<img />').attr('src',imageURL).appendTo('body').on('load',function(){
+		$('<img />').hide().attr('src',imageURL).appendTo('body').on('load',function(){
 			//console.log('preload finish at '+ $.now() +' ' + imageURL);
 			preloadSet.add(imageURL);
 			this.remove();
