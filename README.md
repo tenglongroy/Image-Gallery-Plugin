@@ -1,6 +1,7 @@
 # Image-Gallery-Plugin
 a plugin to show a set of images.
 
+[DEMO](http://tenglongroy.pythonanywhere.com/image-gallery)
 
 --version 1.0
 This plugin is based on Jquery, the usage of the plugin is as below:
